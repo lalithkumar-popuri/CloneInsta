@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloneInstagram</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/master.css' %}">
+</head>
+<body >
+    <div class = "container" style="width: 75%;">
+        <nav class = "navbar" role = "navigation">
+            <div class = "container">
+                <a href = "#" class = "navbar-brand">CloneInstagram</a>
+                <ul class="nav nabar-nav navbar-right">
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'posts:profile' username=user.username %}" class="btn btn-default">{{user.username}}</a></li>
+                    <li><button href="{% url 'posts:create' %}" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#exampleModal">Post</button></li>
+                    <li><a href="{% url 'accounts:logout' %}" class="btn btn-default">Log out</a></li>
+                    {% elif request.path == '/accounts/signup/' %}
+                    <li><a href="{% url 'home' %}" class="btn btn-default">Log in</a></li>
+                    {% else %}
+                    <li><a href="{% url 'accounts:signup' %}" class="btn btn-default">Sign up</a></li>
+                    {% endif %}
+
+                </ul>
+            </div>
+        </nav>
+    <div class="container mycontent">
+        {% block content %}
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Create new post</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="POST" action = "{% url 'posts:create' %}" enctype="multipart/form-data" id = "postForm"></form>
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+                    </div>
+                    <div class="modal-footer">
+                        <input type = "submit" value = "Post" class = "btn btn-primary btn-large">
+                    </div>
+                    </form>
+                        
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

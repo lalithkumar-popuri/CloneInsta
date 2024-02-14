@@ -1,0 +1,10 @@
+{% extends "posts/post_base.html" %}
+
+{% block post_content %}
+    <h3 class = "px-2">{{ post_user.username }}</h3>
+    <div class = "">
+        {% for post in post_list %}
+        <img src = "{{ post.image.url }}" alt="post.username" width = "25%" height="auto" class="float-start px-1 py-1 rounded-5">
+        {% endfor %}
+    </div>
+    {% endblock %}

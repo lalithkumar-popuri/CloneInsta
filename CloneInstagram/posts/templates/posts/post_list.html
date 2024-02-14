@@ -1,0 +1,15 @@
+{% extends "posts/post_base.html" %}
+
+{% block post_content %}
+
+<div class = "col col-lg-8">
+    {% for post in object_list %}
+    <div class = "media-body">
+        <strong>{{ post.user.username }}</strong>
+        <p>{{ post.created_at }}</p>
+        <img src="{{ post.image.url }}" alt="{{post.user}}" width="75%" height="auto">
+        <p>{{post.caption_html|safe}}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
